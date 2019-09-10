@@ -9,7 +9,7 @@ to analyze the correlation between the financial market and twitter of President
 
 [log/](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/log/) contains the loggers for the outcomes of streaming data
 
-[tweets/](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/tweets/) contains the pd.DataFrame for historical tweets of the target like **Donal Trump**
+[tweets/](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/tweets/) contains the pd.DataFrame for historical tweets of the target like **Donald Trump**
 
 [login_params.json](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/login_params.json) contains the needed
 *key* and *secret* for logging into the Twitter API. You may apply for your own API code by applying for the developer twitter 
