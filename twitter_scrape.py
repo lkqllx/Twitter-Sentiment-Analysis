@@ -5,8 +5,8 @@ import tweepy
 import pandas as pd
 import numpy as np
 import logging
-from config import *
 import datetime as dt
+import json
 
 """Setting up the log information"""
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', )
@@ -42,13 +42,15 @@ class MyStreaming(tweepy.StreamListener):
         """Error Handler"""
         logger.error(f'Error - {status_code}')
 
-def connect_api():
-    auth = tweepy.OAuthHandler(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+def connect_api(login_path = 'login_params.json'):
+    with open(login_path, 'r') as f:
+        params = json.load(f)
+    auth = tweepy.OAuthHandler(consumer_key=params['CONSUMER_KEY'], consumer_secret=params['CONSUMER_SECRET'])
+    auth.set_access_token(params['ACCESS_TOKEN'], params['ACCESS_SECRET'])
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     return api
 
-def screen_tweets(api: tweepy.API, target: str = 'realDonalTrump', num: int = 20):
+def g(api: tweepy.API, target: str = 'realDonalTrump', num: int = 20):
     """
     Retrieve information of President Donald Trump (id=1171064202049421314)
     :param api: tweepy.API class
