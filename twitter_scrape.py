@@ -50,7 +50,7 @@ def connect_api(login_path = 'login_params.json'):
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     return api
 
-def screen_tweets(api: tweepy.API, target: str = 'realDonalTrump', num: int = 20):
+def g(api: tweepy.API, target: str = 'realDonalTrump', num: int = 20):
     """
     Retrieve information of President Donald Trump (id=1171064202049421314)
     :param api: tweepy.API class
