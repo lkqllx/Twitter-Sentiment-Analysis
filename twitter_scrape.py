@@ -7,6 +7,10 @@ import numpy as np
 import logging
 import datetime as dt
 import json
+import re
+from textblob import TextBlob
+
+DATE_FORMAT = '%Y-%m-%d %H-%M-%S'
 
 """Setting up the log information"""
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', )
@@ -17,10 +21,13 @@ logger.addHandler(f)
 
 class MyStreaming(tweepy.StreamListener):
     """Customized class for streaming"""
-    def __init__(self, api: tweepy.API):
+    def __init__(self, api: tweepy.API, target: str = 'Trump', limit: int = 20):
         # super().__init__()
         self.api = api
         self.me = api.me()
+        self.target = target
+        self.limit = limit
+        self.polarity_df = pd.DataFrame(columns=['text', 'polarity'])
 
     def on_status(self, tweet):
         """
@@ -28,13 +35,32 @@ class MyStreaming(tweepy.StreamListener):
         :param tweet: tweepy.Status class
         :return: None
         """
+
         logger.info(msg=f'Procssing tweet from {tweet.user.name}')
         if tweet.user.id == self.me.id:
             """Ignore if twitted by self"""
             return
 
         try:
-            logger.info(f'{tweet.user.name} - {tweet.text}')
+            if re.search(self.target, tweet.text, re.IGNORECASE):
+                """
+                if the text has same pattern specified by #self.target
+                -> record the text and compute the polarity of this sentence
+                """
+                sentence = TextBlob(tweet.text)
+                polarity = sentence.sentiment.polarity
+                self.polarity_df = self.polarity_df.append({'text':tweet.text, 'polarity':polarity}, ignore_index=True)
+                logger.info(f'{tweet.user.name} - {polarity}')
+                self.limit -= 1
+
+                if self.limit == 0:
+                    """
+                    save polarity dataframe
+                    Exit() if limit reached
+                    """
+                    self.polarity_df.to_csv(f'sentiments/{dt.datetime.strftime(dt.datetime.now(), DATE_FORMAT)}_sentiments.csv')
+                    return False # Exiting method for Stream
+
         except Exception as e:
             logging.error(f'Error - {e}')
 
@@ -67,8 +93,7 @@ def main():
     api = connect_api()
     target = 'realDonalTrump'
     tweet_df = screen_tweets(api, target, 200)
-    fmt = '%Y-%m-%d %H-%M-%S'
-    tweet_df.to_csv(f'tweets/{target}-{dt.datetime.strftime(dt.datetime.now(), fmt)}')
+    tweet_df.to_csv(f'tweets/{target}-{dt.datetime.strftime(dt.datetime.now(), DATE_FORMAT)}')
 
 
     tweet_listener = MyStreaming(api)
