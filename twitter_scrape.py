@@ -25,8 +25,8 @@ class MyStreaming(tweepy.StreamListener):
         # super().__init__()
         self.api = api
         self.me = api.me()
-        self.target = target
-        self.limit = limit
+        self.target = target # target pattern
+        self.limit = limit # number of wanted texts
         self.polarity_df = pd.DataFrame(columns=['text', 'polarity'])
 
     def on_status(self, tweet):
