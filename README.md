@@ -1,5 +1,4 @@
-Twitter Sentiment Analysis
----
+#Twitter Sentiment Analysis
 
 ### Description
 This repository is created and maintained by _Andrew Li_ for scraping information from twitter 
