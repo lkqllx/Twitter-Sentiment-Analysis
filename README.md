@@ -1,4 +1,4 @@
-# Scrape Twitter From realDonaldTrump for Financial Sentiment Analysis
+# Twitter Sentiment Analysis
 # Description
 This repository is created and maintained by _Andrew Li_ for scraping information from twitter 
 to analyze the correlation between the financial market and twitter of President **Donald Trump**.
@@ -6,7 +6,10 @@ to analyze the correlation between the financial market and twitter of President
 # Files
 [twitter_scrape.py](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/twitter_scrape.py) contains several functions listed below:
 * `func screen_tweets`: Actively retrieve tweets from the target for specific numbers
-* `class MyStreaming`: Passively waiting for the real-time tweets and screen them by specific word.
+* `class MyStreaming`: Passively waiting for the real-time tweets and screen them by specific word. If incoming text matches
+our pattern, we will record the text and do sentiment analysis.
+
+[sentiments/](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/sentiments) contains the recording file of target text and its corresponding polarity (sentiment)
 
 [log/](https://github.com/lkqllx/Twitter-Sentiment-Analysis/blob/master/log/) contains the loggers for the outcomes of streaming data
 
