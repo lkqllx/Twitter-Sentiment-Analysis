@@ -1,5 +1,6 @@
 #Twitter Sentiment Analysis
 
+
 ### Description
 This repository is created and maintained by _Andrew Li_ for scraping information from twitter 
 to analyze the correlation between the financial market and twitter of President **Donald Trump**.
